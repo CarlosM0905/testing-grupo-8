@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AnularInscripcionControlador.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.controladores.participantes.inscripcion</a> &gt; <span class="el_source">AnularInscripcionControlador.java</span></div><h1>AnularInscripcionControlador.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.controladores.participantes.inscripcion;
+
+import com.fisi.sigece.dao.InscripcionDAO;
+import com.fisi.sigece.dao.OtrasFuncionesDAO;
+import com.fisi.sigece.modelos.Inscripcion;
+import com.fisi.sigece.modelos.Usuario;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ * CUS 09 - Anular asistencia
+ * @author josecarlos
+ */
+<span class="nc" id="L25">public class AnularInscripcionControlador extends HttpServlet {</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+        try {
+<span class="nc" id="L36">            response.sendError(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="nc" id="L37">        } catch (IOException ex) {</span>
+<span class="nc" id="L38">            Logger.getLogger(AnularInscripcionControlador.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L39">        }</span>
+        
+<span class="nc" id="L41">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+        
+        try {
+        
+<span class="nc" id="L54">            int idEvento = Integer.parseInt(request.getParameter(&quot;idSupraevento&quot;));</span>
+<span class="nc" id="L55">            HttpSession miSesion = request.getSession(true);</span>
+<span class="nc" id="L56">            Usuario usuarioActual = (Usuario) miSesion.getAttribute(&quot;usuario&quot;);</span>
+<span class="nc" id="L57">            int idUsuario = usuarioActual.getIdUsuario();</span>
+
+<span class="nc" id="L59">            OtrasFuncionesDAO otrasfuncionesDAO = new OtrasFuncionesDAO();</span>
+<span class="nc" id="L60">            int idParticipante = otrasfuncionesDAO.obtenerIdParticipante(idUsuario);</span>
+
+<span class="nc" id="L62">            Inscripcion inscripcionAEliminar = new Inscripcion();</span>
+<span class="nc" id="L63">            inscripcionAEliminar.setIdSupraevento(idEvento);</span>
+<span class="nc" id="L64">            inscripcionAEliminar.setIdParticipante(idParticipante);</span>
+
+<span class="nc" id="L66">            InscripcionDAO inscripcionDAO = new InscripcionDAO();</span>
+<span class="nc" id="L67">            inscripcionDAO.anularInscripcionEnSupraevento(inscripcionAEliminar);</span>
+            
+<span class="nc" id="L69">            String exito = &quot;* Usted ha anulado su inscripcion en el evento&quot;;</span>
+<span class="nc" id="L70">            request.setAttribute(&quot;exito&quot;, exito);</span>
+<span class="nc" id="L71">            request.getRequestDispatcher(&quot;/participante/supraeventos&quot;).forward(request, response);</span>
+<span class="nc" id="L72">        } catch (NumberFormatException | ServletException | IOException ex) {</span>
+<span class="nc" id="L73">            Logger.getLogger(AnularInscripcionControlador.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L74">        }</span>
+        
+<span class="nc" id="L76">    }</span>
+    
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L86">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

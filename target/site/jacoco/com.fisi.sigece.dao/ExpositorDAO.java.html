@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ExpositorDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.dao</a> &gt; <span class="el_source">ExpositorDAO.java</span></div><h1>ExpositorDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.dao;
+
+import com.fisi.sigece.modelos.Expositor;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * CUS 02 - Registrar al expositor
+ * CUS 03 - Modificar expositor
+ * @author josecarlos
+ */
+public class ExpositorDAO {
+    
+private AccesoDB db; 
+
+<span class="nc" id="L27">    public ExpositorDAO(){</span>
+<span class="nc" id="L28">       db = new AccesoDB();</span>
+<span class="nc" id="L29">    }</span>
+   
+   public List&lt;Expositor&gt; listarExpositores(){
+<span class="nc" id="L32">        List&lt;Expositor&gt; lista = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L33">        String procedimientoalmacenado = &quot;{CALL sp_listarExpositores()}&quot;;</span>
+<span class="nc" id="L34">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        if(cn != null){</span>
+<span class="nc" id="L37">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+                
+<span class="nc" id="L39">                try (ResultSet rs = cs.executeQuery();) {</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                    while(rs.next()){                    </span>
+<span class="nc" id="L41">                        Expositor exp=new Expositor();</span>
+<span class="nc" id="L42">                        exp.setIdExpositor(rs.getInt(&quot;id_expositor&quot;));</span>
+<span class="nc" id="L43">                        exp.setNombreExpositor(rs.getString(&quot;nombre_expositor&quot;));</span>
+<span class="nc" id="L44">                        exp.setEspecialidadExpositor(rs.getString(&quot;especialidad_expositor&quot;));</span>
+<span class="nc" id="L45">                        exp.setFechaNacimiento(rs.getDate(&quot;fecha_nacimiento&quot;).toLocalDate());</span>
+<span class="nc" id="L46">                        exp.setCorreoExpositor(rs.getString(&quot;correo_expositor&quot;));                                </span>
+<span class="nc" id="L47">                        lista.add(exp);</span>
+<span class="nc" id="L48">                    }</span>
+                }
+<span class="nc" id="L50">            } catch (SQLException ex) {</span>
+<span class="nc" id="L51">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L52">            }</span>
+            try{
+<span class="nc" id="L54">                cn.close();</span>
+<span class="nc" id="L55">            }catch(SQLException ex){</span>
+<span class="nc" id="L56">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L57">            }</span>
+        }
+<span class="nc" id="L59">        return lista;</span>
+}
+   public Expositor obtenerExpositor(int idExpositor){
+<span class="nc" id="L62">        Expositor expositor = null;</span>
+<span class="nc" id="L63">        String procedimientoalmacenado = &quot;{CALL sp_obtenerexpositor(?)}&quot;;</span>
+<span class="nc" id="L64">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if(cn!=null){</span>
+<span class="nc" id="L67">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+                
+<span class="nc" id="L69">                cs.setInt(1, idExpositor);</span>
+                
+<span class="nc" id="L71">                try (ResultSet rs = cs.executeQuery();) {</span>
+<span class="nc bnc" id="L72" title="All 2 branches missed.">                    if(rs.next()){</span>
+<span class="nc" id="L73">                        expositor = new Expositor();</span>
+<span class="nc" id="L74">                        expositor.setIdExpositor(rs.getInt(&quot;id_expositor&quot;));</span>
+<span class="nc" id="L75">                        expositor.setNombreExpositor(rs.getString(&quot;nombre_expositor&quot;));</span>
+<span class="nc" id="L76">                        expositor.setEspecialidadExpositor(rs.getString(&quot;especialidad_expositor&quot;));</span>
+<span class="nc" id="L77">                        expositor.setFechaNacimiento(rs.getDate(&quot;fecha_nacimiento&quot;).toLocalDate());</span>
+<span class="nc" id="L78">                        expositor.setCorreoExpositor(rs.getString(&quot;correo_expositor&quot;));</span>
+                    }
+                }
+<span class="nc" id="L81">            } catch (SQLException ex) {</span>
+<span class="nc" id="L82">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L83">            }</span>
+            
+            try{
+<span class="nc" id="L86">                cn.close();</span>
+<span class="nc" id="L87">            }catch(SQLException ex){</span>
+<span class="nc" id="L88">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L89">            }</span>
+
+        }
+<span class="nc" id="L92">        return expositor;</span>
+}
+   
+   public String insertarExpositor (Expositor expositor) {
+<span class="nc" id="L96">        String rpta = null;</span>
+<span class="nc" id="L97">        String procedimientoalmacenado=&quot;{CALL sp_insertarexpositor(?,?,?,?)}&quot;;</span>
+<span class="nc" id="L98">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if(cn!=null){</span>
+            
+<span class="nc" id="L102">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+            
+<span class="nc" id="L104">                cs.setString(1,expositor.getNombreExpositor());</span>
+<span class="nc" id="L105">                cs.setString(2,expositor.getEspecialidadExpositor()); </span>
+<span class="nc" id="L106">                cs.setString(3,expositor.getFechaNacimiento()); </span>
+<span class="nc" id="L107">                cs.setString(4,expositor.getCorreoExpositor()); </span>
+<span class="nc" id="L108">                int inserto=cs.executeUpdate();</span>
+                
+<span class="nc bnc" id="L110" title="All 2 branches missed.">                if(inserto==0){</span>
+<span class="nc" id="L111">                    rpta=&quot;Error&quot;;</span>
+                }
+<span class="nc" id="L113">            } catch (SQLException ex) {</span>
+<span class="nc" id="L114">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L115">            }</span>
+            
+            try{
+<span class="nc" id="L118">                cn.close();</span>
+<span class="nc" id="L119">            }catch(SQLException ex){</span>
+<span class="nc" id="L120">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L121">            }</span>
+        }
+<span class="nc" id="L123">        return rpta;</span>
+    }
+   
+    public String actualizarExpositores (Expositor expositor) {
+<span class="nc" id="L127">        String rpta = null;</span>
+<span class="nc" id="L128">        String procedimientoalmacenado = &quot;{CALL sp_actualizarexpositor (?,?,?,?,?)}&quot;;</span>
+<span class="nc" id="L129">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L131" title="All 2 branches missed.">        if(cn!=null){</span>
+            
+<span class="nc" id="L133">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+            
+<span class="nc" id="L135">                cs.setInt(1, expositor.getIdExpositor());</span>
+<span class="nc" id="L136">                cs.setString(2, expositor.getNombreExpositor());</span>
+<span class="nc" id="L137">                cs.setString(3, expositor.getEspecialidadExpositor()); </span>
+<span class="nc" id="L138">                cs.setString(4, expositor.getFechaNacimiento()); </span>
+<span class="nc" id="L139">                cs.setString(5, expositor.getCorreoExpositor());         </span>
+                
+<span class="nc" id="L141">                int actualizo = cs.executeUpdate();</span>
+                
+<span class="nc bnc" id="L143" title="All 2 branches missed.">                if(actualizo == 0){</span>
+<span class="nc" id="L144">                    rpta = &quot;Error&quot;;</span>
+                }
+<span class="nc" id="L146">            } catch (SQLException ex) {</span>
+<span class="nc" id="L147">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L148">            }</span>
+            
+            try{
+<span class="nc" id="L151">                cn.close();</span>
+<span class="nc" id="L152">            }catch(SQLException ex){</span>
+<span class="nc" id="L153">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L154">            }</span>
+        }
+<span class="nc" id="L156">        return rpta;</span>
+    }
+    
+    public String eliminarExpositores (int idExpositor) {
+<span class="nc" id="L160">        String rpta = null;</span>
+<span class="nc" id="L161">        String procedimientoalmacenado = &quot;{CALL sp_eliminarexpositor(?)}&quot;;</span>
+<span class="nc" id="L162">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if(cn != null){</span>
+            
+<span class="nc" id="L166">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+                
+<span class="nc" id="L168">                cs.setInt(1, idExpositor);</span>
+<span class="nc" id="L169">                cs.executeUpdate();</span>
+                
+<span class="nc" id="L171">            } catch (SQLException ex) {</span>
+<span class="nc" id="L172">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L173">            }</span>
+            
+            try{
+<span class="nc" id="L176">                cn.close();</span>
+<span class="nc" id="L177">            }catch(SQLException ex){</span>
+<span class="nc" id="L178">                Logger.getLogger(ExpositorDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L179">            }</span>
+        }
+<span class="nc" id="L181">        return rpta;</span>
+    }
+    
+    public int obtenerIdexpositorDeNombre(String nombreExpositor){
+<span class="nc" id="L185">        int idexpositor = -1;</span>
+<span class="nc" id="L186">        String funcionalmacenada = &quot;{? = CALL fu_obteneridexpositordenombre(?)}&quot;;</span>
+<span class="nc" id="L187">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L189" title="All 2 branches missed.">        if(cn != null){</span>
+<span class="nc" id="L190">            try(CallableStatement cs = cn.prepareCall(funcionalmacenada)){</span>
+            
+<span class="nc" id="L192">                cs.registerOutParameter(1, java.sql.Types.BOOLEAN);</span>
+                
+<span class="nc" id="L194">                cs.setString(2, nombreExpositor);</span>
+<span class="nc" id="L195">                cs.execute();</span>
+<span class="nc" id="L196">                idexpositor = cs.getInt(1);</span>
+                
+<span class="nc" id="L198">            } catch (SQLException ex) {</span>
+<span class="nc" id="L199">                Logger.getLogger(OtrasFuncionesDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L200">            }</span>
+            
+            try{
+<span class="nc" id="L203">                cn.close();</span>
+<span class="nc" id="L204">            }catch(SQLException ex){</span>
+<span class="nc" id="L205">                Logger.getLogger(OtrasFuncionesDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L206">            }</span>
+
+        }
+        
+<span class="nc" id="L210">        return idexpositor;</span>
+    } 
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

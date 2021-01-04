@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EliminarExpositorControlador.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.controladores.admin.expositores</a> &gt; <span class="el_source">EliminarExpositorControlador.java</span></div><h1>EliminarExpositorControlador.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.controladores.admin.expositores;
+
+import com.fisi.sigece.dao.ExpositorDAO;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author josecarlos
+ */
+<span class="nc" id="L21">public class EliminarExpositorControlador extends HttpServlet {</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+        try {
+<span class="nc" id="L34">            response.sendError(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="nc" id="L35">        } catch (IOException ex) {</span>
+<span class="nc" id="L36">            Logger.getLogger(EliminarExpositorControlador.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L37">        }</span>
+        
+<span class="nc" id="L39">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+        
+        try {
+        
+<span class="nc" id="L54">            int idExpositor = Integer.parseInt(request.getParameter(&quot;id_expositor&quot;));</span>
+<span class="nc" id="L55">            ExpositorDAO expositorDAO = new ExpositorDAO();</span>
+<span class="nc" id="L56">            expositorDAO.eliminarExpositores(idExpositor);</span>
+            
+<span class="nc" id="L58">            response.sendRedirect(request.getContextPath()+&quot;/admin/expositores&quot;);</span>
+<span class="nc" id="L59">        } catch (NumberFormatException | IOException ex) {</span>
+<span class="nc" id="L60">            Logger.getLogger(EliminarExpositorControlador.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L61">        }</span>
+        
+<span class="nc" id="L63">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L72">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

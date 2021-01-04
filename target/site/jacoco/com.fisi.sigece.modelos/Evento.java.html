@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Evento.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.modelos</a> &gt; <span class="el_source">Evento.java</span></div><h1>Evento.java</h1><pre class="source lang-java linenums">package com.fisi.sigece.modelos;
+
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+<span class="fc" id="L8">public class Evento {</span>
+    private int idEvento;
+    private String nombreEvento;
+    private LocalDate fechaEvento;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
+    private int idambiente;
+    private int idexpositor;
+    private int numeroInscritos;
+    private String estadoEvento;
+    private int idSupraevento;
+    
+    public int getIdambiente() {
+<span class="fc" id="L21">        return idambiente;</span>
+    }
+
+    public void setIdambiente(int idambiente) {
+<span class="fc" id="L25">        this.idambiente = idambiente;</span>
+<span class="fc" id="L26">    }</span>
+
+    public int getIdexpositor() {
+<span class="fc" id="L29">        return idexpositor;</span>
+    }
+
+    public void setIdexpositor(int idexpositor) {
+<span class="fc" id="L33">        this.idexpositor = idexpositor;</span>
+<span class="fc" id="L34">    }</span>
+
+    public void setIdEvento(int idEvento) {
+<span class="fc" id="L37">        this.idEvento = idEvento;</span>
+<span class="fc" id="L38">    }</span>
+    
+    public int getIdEvento(){
+<span class="fc" id="L41">        return this.idEvento;</span>
+    }
+    
+    public String getNombreEvento() {
+<span class="fc" id="L45">        return nombreEvento;</span>
+    }
+
+    public void setNombreEvento(String nombreEvento) {
+<span class="fc" id="L49">        this.nombreEvento = nombreEvento;</span>
+<span class="fc" id="L50">    }</span>
+
+    public String getFechaEvento() {
+        
+<span class="fc" id="L54">        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE; </span>
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        return this.fechaEvento !=null ? fechaEvento.format(formatter): &quot;&quot;;</span>
+    }
+
+    public void setFechaEvento(LocalDate fechaEvento) {
+<span class="fc" id="L59">        this.fechaEvento = fechaEvento;</span>
+<span class="fc" id="L60">    }</span>
+
+    public String getHoraInicio() {
+<span class="fc" id="L63">        DateTimeFormatter formatter = DateTimeFormatter.ISO_TIME; </span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        return horaInicio!=null ? horaInicio.format(formatter): &quot;&quot;;</span>
+    }
+
+    public void setHoraInicio(LocalTime horaInicio) {
+<span class="fc" id="L68">        this.horaInicio = horaInicio;</span>
+<span class="fc" id="L69">    }</span>
+
+    public String getHoraFin() {
+<span class="fc" id="L72">        DateTimeFormatter formatter = DateTimeFormatter.ISO_TIME; </span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        return horaFin!=null ? horaFin.format(formatter) : &quot;&quot;;</span>
+    }
+
+    public void setHoraFin(LocalTime horaFin) {
+<span class="fc" id="L77">        this.horaFin = horaFin;</span>
+<span class="fc" id="L78">    }</span>
+
+    public String getEstadoEvento() {
+<span class="fc" id="L81">        return estadoEvento;</span>
+    }
+
+    public void setEstadoEvento(String estadoEvento) {
+<span class="fc" id="L85">        this.estadoEvento = estadoEvento;</span>
+<span class="fc" id="L86">    }</span>
+
+    public int getNumeroInscritos() {
+<span class="fc" id="L89">        return numeroInscritos;</span>
+    }
+
+    public void setNumeroInscritos(int inscritos) {
+<span class="fc" id="L93">        this.numeroInscritos = inscritos;</span>
+<span class="fc" id="L94">    }</span>
+
+    public int getIdSupraevento() {
+<span class="nc" id="L97">        return idSupraevento;</span>
+    }
+
+    public void setIdSupraevento(int idSupraevento) {
+<span class="nc" id="L101">        this.idSupraevento = idSupraevento;</span>
+<span class="nc" id="L102">    }</span>
+    
+    public boolean estaDisponible(){
+<span class="fc" id="L105">        return &quot;DISPONIBLE&quot;.equalsIgnoreCase(this.estadoEvento);</span>
+    }
+    
+    public boolean estaLleno(){
+<span class="fc" id="L109">        return &quot;LLENO&quot;.equalsIgnoreCase(this.estadoEvento);</span>
+    }
+    
+    public boolean estaFinalizado(){
+<span class="fc" id="L113">        return &quot;FINALIZADO&quot;.equalsIgnoreCase(this.estadoEvento);</span>
+    }
+    
+    public boolean estaEnProceso(){
+<span class="fc" id="L117">        return &quot;EN PROCESO&quot;.equalsIgnoreCase(this.estadoEvento);</span>
+    }
+    
+    @Override
+    public String toString() {
+<span class="fc" id="L122">        return &quot;Evento{&quot; + &quot;idEvento=&quot; + idEvento + &quot;, nombreEvento=&quot; </span>
+<span class="fc" id="L123">                + nombreEvento + &quot;, fechaEvento=&quot; + getFechaEvento() </span>
+<span class="fc" id="L124">                + &quot;, idambiente=&quot; + idambiente + &quot;, horaInicio=&quot;+ getHoraInicio() </span>
+<span class="fc" id="L125">                + &quot;, horaFin=&quot;+ getHoraFin() + &quot;, idexpositor=&quot;+ idexpositor </span>
+                + &quot;, estadoEvento=&quot;+ estadoEvento + &quot;numeroInscritos&quot; 
+                + numeroInscritos + &quot;, idSupraevento=&quot; + idSupraevento + '}';
+    }
+   
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

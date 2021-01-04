@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SinCacheFiltro.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.filtros</a> &gt; <span class="el_source">SinCacheFiltro.java</span></div><h1>SinCacheFiltro.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.filtros;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author josecarlos
+ */
+<span class="nc" id="L24">public class SinCacheFiltro implements Filter {</span>
+    
+/**
+     *
+     * @param request The servlet request we are processing
+     * @param response The servlet response we are creating
+     * @param chain The filter chain we are processing
+     *
+     */
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain){
+        
+        try {
+<span class="nc" id="L38">            HttpServletResponse httpResponse = (HttpServletResponse) response;</span>
+            
+<span class="nc" id="L40">            httpResponse.setHeader(&quot;Cache-Control&quot;, &quot;no-cache, no-store&quot;);</span>
+<span class="nc" id="L41">            httpResponse.setHeader(&quot;Pragma&quot;, &quot;no-cache&quot;);</span>
+<span class="nc" id="L42">            httpResponse.setDateHeader(&quot;Expires&quot;, 0);</span>
+            
+<span class="nc" id="L44">            chain.doFilter(request, response);</span>
+            
+<span class="nc" id="L46">        } catch (ServletException | IOException ex) {</span>
+<span class="nc" id="L47">                Logger.getLogger(SinCacheFiltro.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L48">        }</span>
+<span class="nc" id="L49">    }</span>
+    
+    /**
+     * Destroy method for this filter
+     */
+    public void destroy() {        
+        // Metodo sobreescrito para implementar Filter
+<span class="nc" id="L56">    }</span>
+
+    /**
+     * Init method for this filter
+     */
+    public void init(FilterConfig filterConfig) {        
+        // Metodo sobreescrito para implementar Filter
+<span class="nc" id="L63">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

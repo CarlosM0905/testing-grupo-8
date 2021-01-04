@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Inscripcion.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.modelos</a> &gt; <span class="el_source">Inscripcion.java</span></div><h1>Inscripcion.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.modelos;
+
+/**
+ *
+ * @author josecarlos
+ */
+<span class="fc" id="L12">public class Inscripcion {</span>
+    private int idSupraevento;
+    private int idParticipante;
+    private String nombreParticipante;
+    private String nombreSupraevento;
+
+    public int getIdSupraevento() {
+<span class="fc" id="L19">        return idSupraevento;</span>
+    }
+
+    public void setIdSupraevento(int idEvento) {
+<span class="fc" id="L23">        this.idSupraevento = idEvento;</span>
+<span class="fc" id="L24">    }</span>
+
+    public int getIdParticipante() {
+<span class="fc" id="L27">        return idParticipante;</span>
+    }
+
+    public void setIdParticipante(int idParticipante) {
+<span class="fc" id="L31">        this.idParticipante = idParticipante;</span>
+<span class="fc" id="L32">    }</span>
+
+    public String getNombreParticipante() {
+<span class="nc" id="L35">        return nombreParticipante;</span>
+    }
+
+    public void setNombreParticipante(String nombreParticipante) {
+<span class="nc" id="L39">        this.nombreParticipante = nombreParticipante;</span>
+<span class="nc" id="L40">    }</span>
+
+    public String getNombreEvento() {
+<span class="nc" id="L43">        return nombreSupraevento;</span>
+    }
+
+    public void setNombreEvento(String nombreEvento) {
+<span class="nc" id="L47">        this.nombreSupraevento = nombreEvento;</span>
+<span class="nc" id="L48">    }</span>
+    
+    @Override
+    public String toString() {
+<span class="fc" id="L52">        return &quot;Inscripcion{&quot; + &quot;idSupraevento=&quot; + idSupraevento </span>
+                + &quot;, idParticipante=&quot; + idParticipante + '}';
+    }
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

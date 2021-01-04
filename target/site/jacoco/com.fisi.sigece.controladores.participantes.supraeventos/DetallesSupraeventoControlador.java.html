@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DetallesSupraeventoControlador.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.controladores.participantes.supraeventos</a> &gt; <span class="el_source">DetallesSupraeventoControlador.java</span></div><h1>DetallesSupraeventoControlador.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.controladores.participantes.supraeventos;
+
+import com.fisi.sigece.controladores.admin.eventos.VerDetallesEventoControlador;
+import com.fisi.sigece.dao.EventoDAO;
+import com.fisi.sigece.dao.InscripcionDAO;
+import com.fisi.sigece.dao.OtrasFuncionesDAO;
+import com.fisi.sigece.dao.SupraeventoDAO;
+import com.fisi.sigece.modelos.Evento;
+import com.fisi.sigece.modelos.Supraevento;
+import com.fisi.sigece.modelos.Usuario;
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+/**
+ *
+ * @author josecarlos
+ */
+<span class="nc" id="L30">public class DetallesSupraeventoControlador extends HttpServlet {</span>
+
+<span class="nc" id="L32">    private final SupraeventoDAO supraeventoDAO = new SupraeventoDAO();</span>
+<span class="nc" id="L33">    private final EventoDAO eventoDAO = new EventoDAO();</span>
+<span class="nc" id="L34">    private final OtrasFuncionesDAO otrasfuncionesDAO = new OtrasFuncionesDAO();</span>
+<span class="nc" id="L35">    private final InscripcionDAO inscripcionDAO = new InscripcionDAO();</span>
+    
+    /**
+     * Handles the HTTP &lt;code&gt;GET&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response){
+        try {
+<span class="nc" id="L46">            String idSupraeventoString = request.getParameter(&quot;idSupraevento&quot;);</span>
+<span class="nc bnc" id="L47" title="All 4 branches missed.">            if(idSupraeventoString == null || idSupraeventoString.equals(&quot;&quot;)){</span>
+<span class="nc" id="L48">                response.sendError(HttpServletResponse.SC_BAD_REQUEST);</span>
+            }else{
+<span class="nc" id="L50">                int idSupraevento = Integer.parseInt(idSupraeventoString);</span>
+                
+<span class="nc" id="L52">                HttpSession miSesion= request.getSession(true);</span>
+<span class="nc" id="L53">                Usuario usuarioActual = (Usuario) miSesion.getAttribute(&quot;usuario&quot;);</span>
+<span class="nc" id="L54">                int idUsuario = usuarioActual.getIdUsuario();</span>
+
+<span class="nc" id="L56">                int idParticipante = otrasfuncionesDAO.obtenerIdParticipante(idUsuario);</span>
+
+<span class="nc" id="L58">                Supraevento supraevento = supraeventoDAO.obtenerSupraevento(idSupraevento);</span>
+<span class="nc" id="L59">                List&lt;Evento&gt; eventos = eventoDAO.listarEventosDeSupraevento(idSupraevento);</span>
+<span class="nc" id="L60">                boolean estaInscrito = inscripcionDAO.estaParticipanteInscritoEnSupraevento(idSupraevento, idParticipante);</span>
+                
+<span class="nc bnc" id="L62" title="All 2 branches missed.">                if(supraevento == null){</span>
+<span class="nc" id="L63">                    response.sendError(HttpServletResponse.SC_NOT_FOUND);</span>
+                }else{
+<span class="nc" id="L65">                    request.setAttribute(&quot;supraevento&quot;, supraevento);</span>
+<span class="nc" id="L66">                    request.setAttribute(&quot;eventos&quot;, eventos);</span>
+<span class="nc" id="L67">                    request.setAttribute(&quot;estaInscrito&quot;, estaInscrito);</span>
+                    
+<span class="nc" id="L69">                    request.getRequestDispatcher(&quot;/vistas/participante/supraeventos/detalles-body.jsp&quot;).forward(request, response);</span>
+                }
+            }
+
+<span class="nc" id="L73">        } catch (NumberFormatException | IOException | ServletException ex) {</span>
+<span class="nc" id="L74">            Logger.getLogger(VerDetallesEventoControlador.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc" id="L76">    }</span>
+
+    /**
+     * Handles the HTTP &lt;code&gt;POST&lt;/code&gt; method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response){
+        try {
+<span class="nc" id="L87">            response.sendError(HttpServletResponse.SC_NOT_FOUND);</span>
+<span class="nc" id="L88">        } catch (IOException ex) {</span>
+<span class="nc" id="L89">            Logger.getLogger(DetallesSupraeventoControlador.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L90">        }</span>
+<span class="nc" id="L91">    }</span>
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+<span class="nc" id="L100">        return &quot;Short description&quot;;</span>
+    }// &lt;/editor-fold&gt;
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

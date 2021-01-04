@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UsuarioDAO.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SIGECE</a> &gt; <a href="index.source.html" class="el_package">com.fisi.sigece.dao</a> &gt; <span class="el_source">UsuarioDAO.java</span></div><h1>UsuarioDAO.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.fisi.sigece.dao;
+
+import com.fisi.sigece.modelos.Usuario;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * CUS 01 - Ingreso al sistema
+ * @author josecarlos
+ */
+public class UsuarioDAO {
+    private AccesoDB db; 
+    
+<span class="nc" id="L23">    public UsuarioDAO(){</span>
+<span class="nc" id="L24">        db = new AccesoDB();</span>
+<span class="nc" id="L25">    }</span>
+    
+    public Usuario obtenerUsuario(String nombreUsuario, String contrasenia){
+<span class="nc" id="L28">        Usuario usuario = null;</span>
+<span class="nc" id="L29">        String procedimientoalmacenado = &quot;{CALL sp_autenticarusuario(?, ?)}&quot;;</span>
+<span class="nc" id="L30">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        if(cn != null){</span>
+<span class="nc" id="L33">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+<span class="nc" id="L34">                cs.setString(1, nombreUsuario);</span>
+<span class="nc" id="L35">                cs.setString(2, contrasenia);</span>
+                    
+<span class="nc" id="L37">                try (ResultSet rs = cs.executeQuery();) {</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">                    if(rs.next()){</span>
+<span class="nc" id="L39">                        usuario = new Usuario();</span>
+<span class="nc" id="L40">                        usuario.setIdUsuario(rs.getInt(&quot;idUsuario&quot;));</span>
+<span class="nc" id="L41">                        usuario.setNombreUsuario(rs.getString(&quot;nombre_usuario&quot;));</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">                        if(rs.getString(&quot;tipo_usuario&quot;).equals(&quot;ADMIN&quot;)){</span>
+<span class="nc" id="L43">                            usuario.setTipoUsuario(Usuario.TipoUsuario.ADMIN);</span>
+<span class="nc bnc" id="L44" title="All 2 branches missed.">                        }else if(rs.getString(&quot;tipo_usuario&quot;).equals(&quot;PARTICIPANTE&quot;)){</span>
+<span class="nc" id="L45">                            usuario.setTipoUsuario(Usuario.TipoUsuario.PARTICIPANTE);</span>
+                        }
+                    }
+                }
+<span class="nc" id="L49">            } catch (SQLException ex) {</span>
+<span class="nc" id="L50">                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L51">            }</span>
+            
+            try{
+<span class="nc" id="L54">                cn.close();</span>
+<span class="nc" id="L55">            }catch(SQLException ex){</span>
+<span class="nc" id="L56">                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L57">            }</span>
+            
+        }
+        
+<span class="nc" id="L61">        return usuario;</span>
+    }
+    
+    public String registrarParticipante(String nombreUsuario, String contrasenia, String nombrePersona){
+<span class="nc" id="L65">        String rpta = null;</span>
+<span class="nc" id="L66">        Connection cn = db.getConnection();</span>
+<span class="nc" id="L67">        String procedimientoalmacenado = &quot;{CALL sp_registrarparticipante(?, ?, ?)}&quot;;</span>
+        
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if(cn!=null){</span>
+<span class="nc" id="L70">            try(CallableStatement cs = cn.prepareCall(procedimientoalmacenado)){</span>
+                
+<span class="nc" id="L72">                cs.setString(1, nombreUsuario);</span>
+<span class="nc" id="L73">                cs.setString(2, contrasenia);</span>
+<span class="nc" id="L74">                cs.setString(3, nombrePersona);</span>
+                
+<span class="nc" id="L76">                int inserto = cs.executeUpdate();</span>
+                
+<span class="nc bnc" id="L78" title="All 2 branches missed.">                if(inserto == 0){</span>
+<span class="nc" id="L79">                    rpta = &quot;Error&quot;;</span>
+                }
+<span class="nc" id="L81">            } catch (SQLException ex) {</span>
+<span class="nc" id="L82">                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L83">            }</span>
+            
+            try{
+<span class="nc" id="L86">                cn.close();</span>
+<span class="nc" id="L87">            }catch(SQLException sqlEx){</span>
+<span class="nc" id="L88">                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, sqlEx);</span>
+<span class="nc" id="L89">            }</span>
+        }
+        
+<span class="nc" id="L92">        return rpta;</span>
+    }
+    
+    public boolean existeNombreUsuario(String nombreUsuario){
+<span class="nc" id="L96">        boolean existeUsuario = false;</span>
+<span class="nc" id="L97">        String funcionalmacenada = &quot;{? = CALL fu_verificarexistenciausuario(?)}&quot;;</span>
+<span class="nc" id="L98">        Connection cn = db.getConnection();</span>
+        
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if(cn != null){</span>
+<span class="nc" id="L101">            try(CallableStatement cs = cn.prepareCall(funcionalmacenada)){</span>
+            
+<span class="nc" id="L103">                cs.registerOutParameter(1, java.sql.Types.BOOLEAN);</span>
+                
+<span class="nc" id="L105">                cs.setString(2, nombreUsuario);</span>
+<span class="nc" id="L106">                cs.execute();</span>
+<span class="nc" id="L107">                existeUsuario = cs.getBoolean(1);</span>
+                
+<span class="nc" id="L109">            } catch (SQLException ex) {</span>
+<span class="nc" id="L110">                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L111">            }</span>
+            
+            try{
+<span class="nc" id="L114">                cn.close();</span>
+<span class="nc" id="L115">            }catch(SQLException ex){</span>
+<span class="nc" id="L116">                Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);</span>
+<span class="nc" id="L117">            }</span>
+
+        }
+        
+<span class="nc" id="L121">        return existeUsuario;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
